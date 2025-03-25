@@ -1,20 +1,9 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import Link from "next/link";
+import { Wine } from "@/types";
 
-type WineProps = {
-  image: string | null;
-  name: string;
-  slug: string;
-  category: string;
-  region: string;
-  description: string;
-  price: string;
-  rating: string;
-  isFeatured: boolean;
-};
-
-const WineCard = (props: WineProps) => {
+const WineCard = (props: Wine) => {
   return (
     <div className="relative flex w-full">
       <Link

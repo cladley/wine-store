@@ -1,8 +1,7 @@
-import { prisma } from "@/db/prisma";
+import { Wine } from "@/types";
 import WineCard from "../wine-card";
-// import { convertToPlainObject } from "@/lib/utils";
 
-const WineList = async (props: { action: () => Promise<any> }) => {
+const WineList = async (props: { action: () => Promise<Wine[]> }) => {
   const wines = await props.action();
 
   if (wines.length === 0) {
