@@ -17,4 +17,19 @@ const adapter = new PrismaNeon(pool);
 export const prisma = new PrismaClient({
   adapter,
   log: ["query", "info", "warn", "error"],
+}).$extends({
+  result: {
+    wine: {
+      price: {
+        compute(wine) {
+          return wine.price.toString();
+        },
+      },
+      rating: {
+        compute(wine) {
+          return wine.rating.toString();
+        },
+      },
+    },
+  },
 });
