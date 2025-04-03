@@ -21,3 +21,13 @@ export const getAllWhiteWines = async () => {
 
   return wines;
 };
+
+export const getWineBySlug = async (slug: string) => {
+  const wine = await prisma.wine.findFirst({
+    where: {
+      slug
+    }
+  })
+
+  return wine;
+};
