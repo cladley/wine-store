@@ -1,12 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
 import { APP_NAME } from "@/lib/constants";
-// import Menu from "./menu";
+import HeaderActions from "./header-actions";
 
-const Header = () => {
+type HeaderProps = {
+  showActions?: boolean;
+};
+
+const Header = async ({ showActions = false }: HeaderProps) => {
   return (
     <header className="w-full border-b">
-      <div className="wrapper flex-between">
+      <div className="wrapper flex flex-between">
         <div className="flex-start">
           <Link href="/" className="flex flex-star items-end w-min">
             <Image
@@ -21,6 +25,7 @@ const Header = () => {
             </span>
           </Link>
         </div>
+        {showActions && <HeaderActions />}
       </div>
     </header>
   );

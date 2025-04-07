@@ -1,3 +1,6 @@
+import { registerUserSchema } from "@/lib/validators";
+import { z } from "zod";
+
 export type Wine = {
   image: string | null;
   name: string;
@@ -9,3 +12,5 @@ export type Wine = {
   rating: string;
   isFeatured: boolean;
 };
+
+export type RegisterUser = z.infer<typeof registerUserSchema>;

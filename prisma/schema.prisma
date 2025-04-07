@@ -22,7 +22,7 @@ model Test {
 model Wine {
   id          String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name        String
-  slug        String @unique
+  slug        String  @unique
   category    String
   region      String
   image       String?
@@ -30,4 +30,72 @@ model Wine {
   price       Decimal @default(0) @db.Decimal(12, 2)
   rating      Decimal @default(0) @db.Decimal(3, 2)
   isFeatured  Boolean @default(false)
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?
+  role          String    @default("user")
+  address       Json?     @db.Json
+  paymentMethod String?
+  createdAt     DateTime  @default(now()) @db.Timestamp(6)
+  updatedAt     DateTime  @updatedAt
+  accounts      Account[]
+  sessions      Session[]
+  Cart          Cart[]
+}
+
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([provider, providerAccountId])
+}
+
+model Session {
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@id([identifier, token])
+}
+
+model Cart {
+  id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId        String
+  sessionCartId String
+  items         Json[]   @default([]) @db.Json
+  itemsPrice    Decimal  @db.Decimal(12, 2)
+  shippingPrice Decimal  @db.Decimal(12, 2)
+  totalPrice    Decimal  @db.Decimal(12, 2)
+  createdAt     DateTime @default(now()) @db.Timestamp(6)
+  user          User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
