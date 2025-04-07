@@ -5,7 +5,6 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useTransition } from "react";
-import { useFormStatus } from "react-dom";
 import { registerUser } from "@/lib/actions/user.actions";
 import { redirect } from "next/navigation";
 import {
