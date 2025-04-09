@@ -39,7 +39,11 @@ const AddToCart = ({ item, cart }: AddToCartProps) => {
 
   return (
     <>
-      {existingCartItem ? <p>already in the cart</p> : <p>Item not in cart</p>}
+      {existingCartItem ? (
+        <p>{existingCartItem.qty} items in cart</p>
+      ) : (
+        <p>Item not in cart</p>
+      )}
       <Button type="button" onClick={handleAddToCart}>
         {isPending ? "Adding..." : "Add to cart"}
       </Button>

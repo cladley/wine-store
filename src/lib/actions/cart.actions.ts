@@ -56,11 +56,9 @@ export const addItemToCart = async (wine: AddToCartItem) => {
 
     const wineItem = cartItemSchema.parse(wine);
 
-    const item = cartItemSchema.parse(wine);
-
     const product = await prisma.wine.findFirst({
       where: {
-        id: item.id,
+        id: wineItem.id,
       },
     });
     if (!product) throw new Error("Product not found");
@@ -85,10 +83,30 @@ export const addItemToCart = async (wine: AddToCartItem) => {
         message: `${product.name} added to cart`,
       };
     } else {
-      // const productInCart = cart.items.find(p => p.id === product.id);
-      // if (productInCart) {
-      //   productInCart.qty = wineItem.qty;
-      // }
+      const productInCart = cart.items.find((p) => p.id === product.id);
+      if (productInCart) {
+        cart.items.find((p) => p.id === product.id)!.qty =
+          productInCart.qty + 1;
+      } else {
+        cart.items.push(wineItem);
+      }
+
+      await prisma.cart.update({
+        where: { id: cart.id },
+        data: {
+          items: cart.items,
+          ...calcPrice(cart.items),
+        },
+      });
+
+      revalidatePath(`/product/${product.slug}`);
+
+      return {
+        success: true,
+        message: `${product.name} ${
+          productInCart ? "updated in" : "added to"
+        } cart`,
+      };
     }
   } catch (error) {
     return {
