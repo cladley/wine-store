@@ -1,6 +1,7 @@
 "use server";
 
 import { prisma } from "@/db/prisma";
+import { convertToPlainObject } from "../utils";
 
 export const getAllRedWines = async () => {
   const wines = await prisma.wine.findMany({
@@ -25,9 +26,9 @@ export const getAllWhiteWines = async () => {
 export const getWineBySlug = async (slug: string) => {
   const wine = await prisma.wine.findFirst({
     where: {
-      slug
-    }
-  })
+      slug,
+    },
+  });
 
-  return wine;
+  return convertToPlainObject(wine);
 };

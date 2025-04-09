@@ -1,19 +1,14 @@
 import Image from "next/image";
 import { Wine } from "@/types";
-import { notFound } from "next/navigation";
 
 type Props = {
-  slug: string;
-  action: (slug: string) => Promise<Wine | null>;
+  wine: Wine;
+  className?: string;
 };
 
-const WineDetails = async ({ slug, action }: Props) => {
-  const wine = await action(slug);
-
-  if (!wine) return notFound();
-
+const WineDetails = async ({ wine, className }: Props) => {
   return (
-    <div className="pt-12">
+    <div className={`pt-12 ${className}`}>
       <div className="flex">
         <Image
           src={wine.image || ""}

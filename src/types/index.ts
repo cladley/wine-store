@@ -1,7 +1,12 @@
-import { registerUserSchema } from "@/lib/validators";
+import {
+  registerUserSchema,
+  cartItemSchema,
+  insertIntoCartSchema,
+} from "@/lib/validators";
 import { z } from "zod";
 
 export type Wine = {
+  id: string;
   image: string | null;
   name: string;
   slug: string;
@@ -14,3 +19,7 @@ export type Wine = {
 };
 
 export type RegisterUser = z.infer<typeof registerUserSchema>;
+
+export type Cart = z.infer<typeof insertIntoCartSchema>;
+export type CartItem = z.infer<typeof cartItemSchema>;
+export type AddToCartItem = z.infer<typeof cartItemSchema>;
